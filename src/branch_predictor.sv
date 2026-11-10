@@ -23,6 +23,12 @@ module branch_predictor #(
   localparam BLOCK_WIDTH = $clog2(DEPTH);
   localparam TAG_WIDTH = 32 - BLOCK_WIDTH - 4;
 
+  typedef struct packed {
+    logic valid;
+    logic [TAG_WIDTH - 1:0] tag;
+    bp_entry_t [3:0] entry;
+  } bp_block_t;
+
   bp_block_t [DEPTH - 1:0] block, next_block;
 
   logic [3:0] taken_bits;
