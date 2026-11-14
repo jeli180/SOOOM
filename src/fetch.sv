@@ -19,6 +19,8 @@ module fetch #(parameter logic [31:0] PC_START = '0) (
 
   //fetch buffer
   output logic [3:0][31:0] instructions,
+  output logic [3:0][31:0] pc_out,
+  output logic [3:0][31:0] pc_next,
   output logic [3:0] mask, 
   output logic valid,
   input logic ready
@@ -54,6 +56,13 @@ module fetch #(parameter logic [31:0] PC_START = '0) (
     next_pc = pc;
     next_latched_instructions = latched_instructions;
     next_state = state;
+
+    //pc outputs
+    for (int i = 0; i < 4; ++i) begin
+      pc_out[i] = {pc[31:4], i[1:0], 2'b0};
+      if (predict_taken && predict_slot == i[1:0]) pc_next[i] = predict_target;
+      else pc_next[i] = pc_out[i] + 4;
+    end
 
     case (state)
       REQ: begin

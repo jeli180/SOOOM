@@ -3,7 +3,7 @@ module fetch_buffer #(parameter DEPTH = 16) (
 
   //fetch interface
   input logic fetch_valid,
-  input logic [3:0][31:0] instructions_in,
+  input logic [3:0][31:0] instructions_in, pc, pc_next,
   input logic [3:0] mask,
   output logic fetch_ready,
 
