@@ -12,9 +12,9 @@ module decode_buffer (
   output logic fetch_ready,
   input decoded_instruction_t [1:0] in,
 
-  //dispatch
-  input logic dispatch_ready,
-  output logic dispatch_valid,
+  //rename
+  input logic rename_ready,
+  output logic rename_valid,
   output decoded_instruction_t [1:0] out
 );
 
@@ -31,7 +31,7 @@ module decode_buffer (
     next_out = out;
 
     fetch_ready = 1'b0;
-    dispatch_valid = 1'b0;
+    rename_valid = 1'b0;
     
     if (!flush) begin 
       case (state)
@@ -43,8 +43,8 @@ module decode_buffer (
           end
         end
         FULL: begin
-          dispatch_valid = 1'b1;
-          if (dispatch_ready) begin
+          rename_valid = 1'b1;
+          if (rename_ready) begin
             fetch_ready = 1'b1;
             if (fetch_valid) next_out = in;
             else next_state = EMPTY;

@@ -3,6 +3,10 @@
 
 package type_pkg;
 
+  //MUST MATCH SOURCE CODE PARAMETERS
+  localparam NUM_REGISTERS = 64;
+  localparam REG_WIDTH = $clog2(NUM_REGISTERS);
+
   //==== branch predictor
   typedef enum logic [1:0] {
     STRONG_NOT_TAKEN,
@@ -58,6 +62,18 @@ package type_pkg;
     aluop_t aluop;
     branch_t btype;
   } decoded_instruction_t;
+
+  //rename
+  typedef struct packed {
+    //decoded_instruction_t
+    decoded_instruction_t decoded_instruction;
+    //rename
+    logic [REG_WIDTH - 1:0] ps1, ps2, pd, pd_old;
+  } renamed_instruction_t;
+
+  typedef struct packed {
+    logic [REG_WIDTH - 1:0] cur, old;
+  } register_map_frame_t;
 
 endpackage
 

@@ -13,7 +13,6 @@ module decode (
       out[i].pc_next = pc_next[i];
       out[i].rs1 = in[i][19:15];
       out[i].rs2 = in[i][24:20];
-      out[i].rd = in[i][11:7];
       case (in[i][6:0])
         7'b0110011: begin //r
           out[i].regwrite = 1'b1;
@@ -108,6 +107,7 @@ module decode (
         end
         default:;
       endcase
+      out[i].rd = out[i].regwrite ? in[i][11:7] : '0;
     end
   end
   
